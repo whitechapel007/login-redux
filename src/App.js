@@ -23,6 +23,7 @@ function App() {
 
   return (
     <div>
+      <div className=" text-center fs-2 py-4">Nigeria's covid data</div>
       {posts?.data?.states.map((item, id) => (
         <div key={item.id} className="py-2 px-5">
           <Table
