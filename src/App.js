@@ -30,7 +30,7 @@ function App() {
             striped
             bordered
             hover
-            className="p-2 "
+            className="p-2"
             size="sm"
             responsive="sm"
           >
