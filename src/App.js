@@ -1,56 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+
+import { getPosts } from "./features/user/dataSlice";
+
+import Table from "react-bootstrap/Table";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getPosts());
+    // eslint-disable-next-line
+  }, []);
+
+  const { loading, posts } = useSelector((state) => state.posts);
+
+  if (loading) {
+    return <div class="loader"></div>;
+  }
+  //   console.log(posts.data.states);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div>
+      {posts?.data?.states.map((item, id) => (
+        <div key={item.id} className="py-2 px-5">
+          <Table
+            striped
+            bordered
+            hover
+            className="p-2 "
+            size="sm"
+            responsive="sm"
           >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+            <thead>
+              <tr>
+                <th> number </th>
+                <th> state </th>
+                <th> confirmed Cases</th>
+                <th> cases on Admission</th>
+                <th> discharged </th>
+                <th> death </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>{id + 1}</th>
+                <td>{item.state}</td>
+                <td>{item.confirmedCases}</td>
+                <td>{item.casesOnAdmission}</td>
+                <td>{item.discharged}</td>
+                <td>{item.death}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      ))}
     </div>
   );
 }
